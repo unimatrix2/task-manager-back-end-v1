@@ -5,6 +5,8 @@ import Project from '../../../models/Project';
 import projectsMapper from '../../../mappers/projects.mapper';
 import projectsService from '../../../services/projects.service';
 
+import ApplicationError from '../../../errors/ApplicationError';
+
 const router = Router();
 
 router.get('/list', async (req, res, next) => {
@@ -15,7 +17,7 @@ router.get('/list', async (req, res, next) => {
 
     return res.status(200).json(projects);
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 
@@ -27,7 +29,7 @@ router.get('/list/:id', async (req, res, next) => {
 
     return res.status(200).json(project);
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 
@@ -39,7 +41,7 @@ router.post('/create', async (req, res, next) => {
 
     return res.status(201).json();
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 
@@ -52,7 +54,7 @@ router.put('/update/:id', Project.validateUpdateParams, async (req, res, next) =
 
     return res.status(200).json(updatedProject);
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 
@@ -64,7 +66,7 @@ router.delete('/delete/:id', async (req, res, next) => {
 
     return res.status(200).json();
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 

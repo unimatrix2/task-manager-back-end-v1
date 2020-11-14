@@ -30,7 +30,9 @@ class TaskRepository {
   }
 
   async deleteOne(id) {
-    await this.Task.findByIdAndDelete(id);
+    const deletedProject = await this.Task.findByIdAndDelete(id);
+
+    return deletedProject;
   }
 }
 

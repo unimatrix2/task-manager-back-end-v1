@@ -8,9 +8,13 @@ class ProjectsService {
   }
 
   async get(search) {
-    const projectsFromDb = await this.projectRepository.get(search);
+    try {
+      const projectsFromDb = await this.projectRepository.get(search);
 
-    return projectsFromDb;
+      return projectsFromDb;
+    } catch (error) {
+      throw new ApplicationError({ message: error.message, type: 'Projects - Get Method', status: 502 });
+    }
   }
 
   async getOne(id) {

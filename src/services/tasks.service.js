@@ -14,13 +14,16 @@ class TasksService {
   }
 
   async create(newTask) {
+    // criando a nova task e pegando o ID dela
     const { _id } = await this.taskRepository.create(newTask);
 
+    // montando um object para atualizar o projeto
     const projectToUpdate = {
       projectId: newTask.project,
       taskId: _id,
     };
 
+    // update do projeto passando o id do projeto e o id da task que sera incluida
     await this.projectsRepository.addTaskToProject(projectToUpdate);
   }
 
@@ -30,10 +33,10 @@ class TasksService {
     return updatedProject;
   }
 
-  async deleteOne(projectId, taskId) {
-    await this.taskRepository.deleteOne(taskId);
+  async deleteOne(taskId) {
+    const { project } = await this.taskRepository.deleteOne(taskId);
 
-    await this.projectsRepository.removeTaskfromProject(projectId, taskId);
+    await this.projectsRepository.removeTaskfromProject(project, taskId);
   }
 }
 

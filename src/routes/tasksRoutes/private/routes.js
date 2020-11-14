@@ -3,6 +3,8 @@ import { Router } from 'express';
 import tasksMapper from '../../../mappers/tasks.mapper';
 import tasksService from '../../../services/tasks.service';
 
+import ApplicationError from '../../../errors/ApplicationError';
+
 const router = Router();
 
 router.get('/list/:id', async (req, res, next) => {
@@ -13,7 +15,7 @@ router.get('/list/:id', async (req, res, next) => {
 
     return res.status(200).json(taskFromDb);
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 
@@ -23,9 +25,9 @@ router.post('/create', async (req, res, next) => {
 
     await tasksService.create(newTaskInfo);
 
-    res.status(201).json();
+    return res.status(201).json();
   } catch (error) {
-    next(error);
+    return next(new ApplicationError(error));
   }
 });
 
@@ -38,19 +40,19 @@ router.put('/update/:id', async (req, res, next) => {
 
     return res.status(200).json(updatedTask);
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 
-router.delete('/delete/project/:projectId/task/:taskId', async (req, res, next) => {
+router.delete('/delete/:taskId', async (req, res, next) => {
   try {
-    const { projectId, taskId } = req.params;
+    const { taskId } = req.params;
 
-    await tasksService.deleteOne(projectId, taskId);
+    await tasksService.deleteOne(taskId);
 
     return res.status(200).json();
   } catch (error) {
-    return next(error);
+    return next(new ApplicationError(error));
   }
 });
 

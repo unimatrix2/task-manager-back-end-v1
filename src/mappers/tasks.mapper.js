@@ -1,4 +1,4 @@
-class ProjectsMapper {
+class TasksMapper {
   updateOne(data) {
     const mappedObject = {
       title: data.title && data.title.trim(),
@@ -15,4 +15,4 @@ class ProjectsMapper {
   }
 }
 
-export default new ProjectsMapper();
+export default new TasksMapper();

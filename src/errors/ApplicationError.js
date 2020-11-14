@@ -1,5 +1,5 @@
 class ApplicationError extends Error {
-  constructor(params) {
+  constructor(params = {}) {
     super();
 
     this.message = params.message || 'An error occurred. Please try again later';

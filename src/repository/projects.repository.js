@@ -8,11 +8,15 @@ class ProjectRepository {
   }
 
   async get(search) {
-    const regex = new RegExp(search, 'i');
+    try {
+      const regex = new RegExp(search, 'i');
 
-    const projects = await this.Project.find({ title: regex }).populate('tasks');
+      const projects = await this.Project.find({ title: regex });
 
-    return projects;
+      return projects;
+    } catch (error) {
+      throw new ApplicationError();
+    }
   }
 
   async getOne(id) {

@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all -s deleteDist build server",
+    "start": "npm-run-all -s deleteBuild build server",
     "dev": "nodemon --exec babel-node src/server.js",
-    "server": "node dist/server.js",
+    "server": "node build/server.js",
     "build": "babel src --out-dir build --copy-files",
-    "deleteDist": "rm -rf build"
+    "deleteBuild": "rm -rf build"
   },
   "keywords": [],
   "author": "",
