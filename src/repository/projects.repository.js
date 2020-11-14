@@ -11,7 +11,7 @@ class ProjectRepository {
     try {
       const regex = new RegExp(search, 'i');
 
-      const projects = await this.Project.find({ title: regex });
+      const projects = await this.Project.find({ title: regex }).populate('tasks');
 
       return projects;
     } catch (error) {
@@ -20,7 +20,7 @@ class ProjectRepository {
   }
 
   async getOne(id) {
-    const project = await this.Project.findById(id);
+    const project = await this.Project.findById(id).populate('tasks');
 
     return project;
   }
