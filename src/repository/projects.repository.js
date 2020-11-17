@@ -20,7 +20,7 @@ class ProjectRepository {
   }
 
   async getOne(id) {
-    const project = await this.Project.findById(id);
+    const project = await this.Project.findById(id).populate('tasks');
 
     return project;
   }
