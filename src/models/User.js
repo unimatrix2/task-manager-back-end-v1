@@ -69,6 +69,7 @@ class UserEntity {
         return next();
     }
 
+    // eslint-disable-next-line no-unused-vars
     validateLoginParams(req, res, next) {
         const loginUserSchema = joi.object({
             email: this.email,
