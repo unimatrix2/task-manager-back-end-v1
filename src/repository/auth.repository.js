@@ -1,21 +1,21 @@
 import UserEntity from '../models/User';
 
 class AuthRepository {
-  constructor() {
-    this.User = UserEntity.User;
-  }
+    constructor() {
+        this.User = UserEntity.User;
+    }
 
-  async findUser(email) {
-    const user = this.User.findOne({ email });
+    async findUser(email) {
+        const user = this.User.findOne({ email });
 
-    return user;
-  }
+        return user;
+    }
 
-  async saveUser(body) {
-    const newUser = new this.User(body);
+    async saveUser(body) {
+        const newUser = new this.User(body);
 
-    await newUser.save();
-  }
+        await newUser.save();
+    }
 }
 
 export default new AuthRepository();
