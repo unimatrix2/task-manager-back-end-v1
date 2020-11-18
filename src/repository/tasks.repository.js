@@ -6,7 +6,7 @@ class TaskRepository {
   }
 
   async getOne(id) {
-    const project = await this.Task.findById(id);
+    const project = await this.Task.findById(id).populate('project');
 
     return project;
   }
