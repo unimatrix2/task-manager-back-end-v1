@@ -11,39 +11,39 @@ import request404Handling from './middlewares/request404Handling';
 dotenv.config();
 
 class App {
-  constructor() {
-    this.app = express();
-    this.mongoConnection = new MongoConnection(process.env.MONGODB_URI);
+    constructor() {
+        this.app = express();
+        this.mongoConnection = new MongoConnection(process.env.MONGODB_URI);
 
-    this.connectToDatabase();
-    this.activateAppMiddlewares();
-    this.activateAppRoutes();
-    this.activateErrorHandling();
-    this.activateNotFoundRequest();
-  }
+        this.connectToDatabase();
+        this.activateAppMiddlewares();
+        this.activateAppRoutes();
+        this.activateErrorHandling();
+        this.activateNotFoundRequest();
+    }
 
-  connectToDatabase() {
-    this.mongoConnection.startDbConnection();
-  }
+    connectToDatabase() {
+        this.mongoConnection.startDbConnection();
+    }
 
-  activateAppMiddlewares() {
-    this.app.use(bodyParser.json());
-    this.app.use(cors({
-      origin: process.env.FRONT_END_URL,
-    }));
-  }
+    activateAppMiddlewares() {
+        this.app.use(bodyParser.json());
+        this.app.use(cors({
+            origin: process.env.FRONT_END_URL,
+        }));
+    }
 
-  activateAppRoutes() {
-    this.app.use('/api', apiRoutes);
-  }
+    activateAppRoutes() {
+        this.app.use('/api', apiRoutes);
+    }
 
-  activateErrorHandling() {
-    this.app.use(errorHandling.handle);
-  }
+    activateErrorHandling() {
+        this.app.use(errorHandling.handle);
+    }
 
-  activateNotFoundRequest() {
-    this.app.use(request404Handling.handle);
-  }
+    activateNotFoundRequest() {
+        this.app.use(request404Handling.handle);
+    }
 }
 
 export default new App().app;

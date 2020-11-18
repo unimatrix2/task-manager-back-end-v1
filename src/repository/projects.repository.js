@@ -3,73 +3,73 @@ import Project from '../models/Project';
 import ApplicationError from '../errors/ApplicationError';
 
 class ProjectRepository {
-  constructor(ProjectModel) {
-    this.Project = ProjectModel;
-  }
-
-  async get(search) {
-    try {
-      const regex = new RegExp(search, 'i');
-
-      const projects = await this.Project.find({ title: regex }).populate('tasks');
-
-      return projects;
-    } catch (error) {
-      throw new ApplicationError();
+    constructor(ProjectModel) {
+        this.Project = ProjectModel;
     }
-  }
 
-  async getOne(id) {
-    const project = await this.Project.findById(id).populate('tasks');
+    async get(search) {
+        try {
+            const regex = new RegExp(search, 'i');
 
-    return project;
-  }
+            const projects = await this.Project.find({ title: regex }).populate('tasks');
 
-  async create(newProject) {
-    try {
-      const project = new this.Project(newProject);
-
-      await project.save();
-    } catch (error) {
-      throw new ApplicationError(
-        {
-          message: 'Error while performing an database operation',
-          type: 'ProjectRepository - create method',
-          status: 409,
-        },
-      );
+            return projects;
+        } catch (error) {
+            throw new ApplicationError();
+        }
     }
-  }
 
-  async updateOne(updateObject, id) {
-    const updatedProject = await this.Project.findByIdAndUpdate(
-      id,
-      updateObject,
-      { new: true, useFindAndModify: false },
-    );
+    async getOne(id) {
+        const project = await this.Project.findById(id).populate('tasks');
 
-    return updatedProject;
-  }
+        return project;
+    }
 
-  async deleteOne(id) {
-    await this.Project.findByIdAndDelete(id);
-  }
+    async create(newProject) {
+        try {
+            const project = new this.Project(newProject);
 
-  async addTaskToProject({ projectId, taskId }) {
-    await this.Project.findByIdAndUpdate(
-      projectId,
-      { $push: { tasks: taskId } },
-      { useFindAndModify: false },
-    );
-  }
+            await project.save();
+        } catch (error) {
+            throw new ApplicationError(
+                {
+                    message: 'Error while performing an database operation',
+                    type: 'ProjectRepository - create method',
+                    status: 409,
+                },
+            );
+        }
+    }
 
-  async removeTaskfromProject(projectId, taskId) {
-    await this.Project.findByIdAndUpdate(
-      projectId,
-      { $pull: { tasks: taskId } },
-      { useFindAndModify: false },
-    );
-  }
+    async updateOne(updateObject, id) {
+        const updatedProject = await this.Project.findByIdAndUpdate(
+            id,
+            updateObject,
+            { new: true, useFindAndModify: false },
+        );
+
+        return updatedProject;
+    }
+
+    async deleteOne(id) {
+        await this.Project.findByIdAndDelete(id);
+    }
+
+    async addTaskToProject({ projectId, taskId }) {
+        await this.Project.findByIdAndUpdate(
+            projectId,
+            { $push: { tasks: taskId } },
+            { useFindAndModify: false },
+        );
+    }
+
+    async removeTaskfromProject(projectId, taskId) {
+        await this.Project.findByIdAndUpdate(
+            projectId,
+            { $pull: { tasks: taskId } },
+            { useFindAndModify: false },
+        );
+    }
 }
 
 export default new ProjectRepository(Project);
