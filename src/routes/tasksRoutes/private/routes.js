@@ -7,6 +7,8 @@ import ApplicationError from '../../../errors/ApplicationError';
 
 const router = Router();
 
+// middleware que recebe o token, valida o token e se for valido vai colocar o id do usuario em um req.user = { id: dka0dasdasd9asda }
+
 router.get('/list/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
