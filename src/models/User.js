@@ -64,11 +64,21 @@ class UserEntity {
     const loginUserSchema = joi.object({
       email: this.email,
       password: this.password,
-    });
+    }).options({ abortEarly: false });
 
     const joiValidation = loginUserSchema.validate(req.body);
 
-    console.log(joiValidation.error.details);
+    if (joiValidation.error) {
+      const errorObject = joiValidation.error.details.reduce((acc, error) => {
+        acc[error.context.label] = error.message;
+
+        return acc;
+      }, {});
+
+      throw new ApplicationError({ message: errorObject, type: 'Auth-Login-Validation-Error', status: 400 });
+    }
+
+    return next();
   }
 }
 

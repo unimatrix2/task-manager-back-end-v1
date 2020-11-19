@@ -18,4 +18,16 @@ router.post('/signup', UserEntity.validateSignupParams, async (req, res, next) =
   }
 });
 
+router.post('/login', UserEntity.validateLoginParams, async (req, res, next) => {
+  try {
+    const { body } = req;
+
+    const loggedToken = await authService.authenticateUser(body);
+
+    return res.status(200).json({ token: loggedToken });
+  } catch (error) {
+    return next(new ApplicationError(error));
+  }
+});
+
 export default router;
