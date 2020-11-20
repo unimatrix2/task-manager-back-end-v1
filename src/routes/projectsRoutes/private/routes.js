@@ -9,13 +9,12 @@ import ApplicationError from '../../../errors/ApplicationError';
 
 const router = Router();
 
-// middleware que recebe o token, valida o token e se for valido vai colocar o id do usuario em um req.user = { id: dka0dasdasd9asda }
-
 router.get('/list', async (req, res, next) => {
   try {
+    const { id } = req.user;
     const { search } = req.query;
 
-    const projects = await projectsService.get(search);
+    const projects = await projectsService.get(id, search);
 
     return res.status(200).json(projects);
   } catch (error) {
@@ -37,9 +36,10 @@ router.get('/list/:id', async (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
   try {
+    const { id } = req.user;
     const newProjectInfo = req.body;
 
-    await projectsService.create(newProjectInfo);
+    await projectsService.create(newProjectInfo, id);
 
     return res.status(201).json();
   } catch (error) {

@@ -7,9 +7,9 @@ class ProjectsService {
     this.projectRepository = projectsRepo;
   }
 
-  async get(search) {
+  async get(id, search) {
     try {
-      const projectsFromDb = await this.projectRepository.get(search);
+      const projectsFromDb = await this.projectRepository.get(id, search);
 
       return projectsFromDb;
     } catch (error) {
@@ -23,8 +23,8 @@ class ProjectsService {
     return projectFromDb;
   }
 
-  async create(newProject) {
-    await this.projectRepository.create(newProject);
+  async create(newProject, id) {
+    await this.projectRepository.create(newProject, id);
   }
 
   async updateOne(updateObject, id) {

@@ -7,11 +7,11 @@ class ProjectRepository {
     this.Project = ProjectModel;
   }
 
-  async get(search) {
+  async get(id, search) {
     try {
       const regex = new RegExp(search, 'i');
 
-      const projects = await this.Project.find({ title: regex }).populate('tasks');
+      const projects = await this.Project.find({ owner: id, title: regex }).populate('tasks');
 
       return projects;
     } catch (error) {
@@ -25,9 +25,9 @@ class ProjectRepository {
     return project;
   }
 
-  async create(newProject) {
+  async create(newProject, id) {
     try {
-      const project = new this.Project(newProject);
+      const project = new this.Project({ ...newProject, owner: id });
 
       await project.save();
     } catch (error) {
